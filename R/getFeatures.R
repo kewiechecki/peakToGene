@@ -67,7 +67,8 @@ getFeatures <- function(
 getOverlaps <- function(feat,peaks){
 	tmp <- findOverlaps(peaks,feat)
 	res <- data.frame(
-		PeakID=peaks$name[from(tmp)],
+#                PeakID=peaks$name[from(tmp)],
+                PeakID=names(peaks)[from(tmp)],
 		GeneID=names(feat)[to(tmp)],
 		stringsAsFactors=F
 	)
