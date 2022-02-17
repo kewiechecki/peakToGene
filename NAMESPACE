@@ -3,4 +3,5 @@
 export(getFeatures)
 export(getOverlapMat)
 export(getOverlaps)
+export(importPeaks)
 export(namePeaks)

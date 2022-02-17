@@ -105,3 +105,15 @@ namePeaks <- function(peaks,prefix=''){
   ))))
   return(peaks)
 }
+
+#' Import peaks file with names.
+#'
+#' @param con The input file
+#' @param ... Arguments passed to \code{\link{rtracklayer::import}}
+#' @seealso \code{\link{namePeaks}}, \code{\link{rtracklayer::import}}
+#' @export
+importPeaks <- function(con,...){
+	peaks <- import(con,...)
+	peaks <- namePeaks(peaks)
+	return(peaks)
+}
