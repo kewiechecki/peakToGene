@@ -61,10 +61,11 @@ getFeatures <- function(
 #' Finds all overlaps between one of the genomic features returned by\code{getFeatures()} and a set of peaks, then returns a table of gene-to-peak associations.
 #'
 #' @param feat One of the \code{GRangesList}s returned by \code{getFeatures()}
-#' @param peaks A \code{GRanges} object from the same genome as \code{feat}.
+#' @param peaks A \code{GRanges} object from the same genome as \code{feat}. It should have a \code{names()} attribute from \code{\link{namePeaks}}.
 #' @return A \code{data.frame} of gene-to-peak mappings.
 #' @export
 getOverlaps <- function(feat,peaks){
+	#peaks <- namePeaks(peaks)
 	tmp <- findOverlaps(peaks,feat)
 	res <- data.frame(
 #                PeakID=peaks$name[from(tmp)],
@@ -89,4 +90,17 @@ getOverlapMat <- function(overlaps){
 	res <- sapply(peakid,function(x) sapply(peaks,function(y) x%in%y))
 	colnames(res) <- names(peaks)
 	return(res)
+}
+
+#' Assigns names to peaks.
+#' 
+#' @param peaks A GRanges object
+#' @export
+namePeaks <- function(peaks){
+  names(peaks) <- paste0(prefix,tolower(unlist(mapply(
+    paste0,
+    as.character(levels(droplevels(seqnames(peaks)))),'.',
+    mapply(seq,1,table(droplevels(seqnames(peaks))))
+  ))))
+  return(peaks)
 }

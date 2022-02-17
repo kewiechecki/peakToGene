@@ -9,7 +9,7 @@ getOverlaps(feat, peaks)
 \arguments{
 \item{feat}{One of the \code{GRangesList}s returned by \code{getFeatures()}}
 
-\item{peaks}{A \code{GRanges} object from the same genome as \code{feat}.}
+\item{peaks}{A \code{GRanges} object from the same genome as \code{feat}. It should have a \code{names()} attribute from \code{\link{namePeaks}}.}
 }
 \value{
 A \code{data.frame} of gene-to-peak mappings.

@@ -1,6 +1,6 @@
 Package: peakToGene
 Title: Functions to assign regulatory elements to genomic features.
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person(given = "Keira",
            family = "Wiechecki",
