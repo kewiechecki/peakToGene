@@ -95,6 +95,7 @@ getOverlapMat <- function(overlaps){
 #' Assigns names to peaks.
 #' 
 #' @param peaks A GRanges object
+#' @param prefix A string appended to the start of each name.
 #' @export
 namePeaks <- function(peaks){
   names(peaks) <- paste0(prefix,tolower(unlist(mapply(
