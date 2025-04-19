@@ -25,6 +25,7 @@
 
           # R‐side dependencies:
           propagatedBuildInputs = [
+		  	  rpkgs.devtools
               rpkgs.GenomicFeatures
               rpkgs.GenomicRanges
 			  rpkgs.rtracklayer
@@ -37,7 +38,10 @@
 
           # C‑library dependencies
           buildInputs = [
+			pkgs.bzip2
+			pkgs.curl
 			pkgs.libpng
+			pkgs.libxml2
           ];
 
 		  preBuild = ''
@@ -50,7 +54,7 @@
           #  R CMD INSTALL --library=$out .
           #'';
 
-          # re‑enable Nix’s R-wrapper so it injects R_LD_LIBRARY_PATH
+          # enable Nix’s R-wrapper so it injects R_LD_LIBRARY_PATH
           dontUseSetLibPath = false;
 
           meta = with pkgs.lib; {
@@ -59,6 +63,13 @@
             maintainers = [ maintainers.kewiechecki ];
           };
         };
+
+		#myR = pkgs.rWrapper.override {
+		#	packages = with rpkgs; [
+		#		devtools GenomicFeatures GenomicRanges rtracklayer
+		#	];
+		#};
+
       in rec {
         # 1) allow `nix build` with no extra attr:
         defaultPackage = myPkg;
@@ -67,18 +78,23 @@
         devShells = {
           default = pkgs.mkShell {
             name = "peakToGene-shell";
+			#packages = [ myR pkgs.git ];
             buildInputs = [
               pkgs.git
               pkgs.R
-              rpkgs.circlize
-              rpkgs.ComplexHeatmap
+              rpkgs.GenomicFeatures
+              rpkgs.GenomicRanges
+			  rpkgs.rtracklayer
+			  pkgs.bzip2
+			  pkgs.curl
 			  pkgs.libpng
+			  pkgs.libxml2
             ];
             shellHook = ''
 source ${pkgs.git}/share/bash-completion/completions/git-prompt.sh
 
-export LD_LIBRARY_PATH="${pkgs.libpng.out}/lib:$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="${pkgs.libpng.out}/lib:$PKG_CONFIG_PATH"
+export LD_LIBRARY_PATH="${pkgs.bzip2.out}/lib:${pkgs.curl.out}/lib:${pkgs.libxml2.out}/lib:${pkgs.libpng.out}/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="${pkgs.bzip2.out}/lib:${pkgs.curl.out}/lib:${pkgs.libxml2.out}/lib:${pkgs.libpng.out}/lib:$PKG_CONFIG_PATH"
             '';
           };
         };
