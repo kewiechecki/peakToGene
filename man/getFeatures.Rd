@@ -24,9 +24,6 @@ getFeatures(
 
 \item{ttswindow}{How many bp downstream of the TTS to consider as downstream of a gene.}
 }
-\value{
-
-}
 \description{
 Parses a genome file in GFF format into a list of \code{GRangesList}s organized by gene and genomic feature.
 }
